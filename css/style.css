@@ -13,6 +13,7 @@
   --dark:#0d1117;
   --dark2:#161b22;
   --green:#3fb950;
+  --card-bg:#ffffff;
   --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:"SF Mono",Consolas,"Liberation Mono",Menlo,monospace;
 }
@@ -27,6 +28,7 @@
   --code-bg:#161b22;
   --btn-bg:#e6edf3;
   --btn-fg:#0d1117;
+  --card-bg:#161b22;
 }
 
 body{transition:background-color .2s,color .2s;}
@@ -44,10 +46,14 @@ a{color:inherit;text-decoration:none;}
 
 /* nav */
 .nav{border-bottom:1px solid var(--border);}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:18px;padding-bottom:18px;}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:18px;padding-bottom:18px;flex-wrap:wrap;row-gap:10px;}
 .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px;}
-.nav-links{display:flex;gap:26px;font-size:14px;color:var(--muted);}
+.nav-links{display:flex;align-items:center;gap:26px;font-size:14px;color:var(--muted);}
 .nav-links a:hover{color:var(--fg);}
+
+/* icon that needs to flip to white only in dark mode (logo, not the always-dark card icons) */
+.icon-auto{transition:filter .2s;}
+.dark .icon-auto{filter:brightness(0) invert(1);}
 
 /* hero */
 .hero{padding:64px 0 48px;}
@@ -59,9 +65,9 @@ h1{font-size:34px;font-weight:600;line-height:1.2;margin:12px 0 14px;}
 .btn{display:inline-block;font-size:14px;font-weight:600;padding:11px 20px;border-radius:6px;cursor:pointer;}
 .btn-primary{background:var(--btn-bg);color:var(--btn-fg);}
 .btn-outline{border:1px solid var(--border);color:var(--fg);}
-.btn-row{display:flex;gap:10px;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
 
-.theme-toggle{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.theme-toggle{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .icon-moon{display:none;}
 .dark .icon-sun{display:none;}
 .dark .icon-moon{display:block;}
@@ -70,10 +76,10 @@ h1{font-size:34px;font-weight:600;line-height:1.2;margin:12px 0 14px;}
 @keyframes blink{50%{opacity:0;}}
 
 /* terminal */
-.terminal{background:var(--dark);border-radius:10px;overflow:hidden;}
+.terminal{background:var(--dark);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
 .terminal-bar{display:flex;gap:6px;padding:10px 14px;background:var(--dark2);}
 .dot{width:8px;height:8px;border-radius:50%;background:#484f58;}
-.terminal-body{padding:16px 18px;font-family:var(--mono);font-size:12.5px;line-height:1.8;color:#8b949e;}
+.terminal-body{padding:16px 18px;font-family:var(--mono);font-size:12.5px;line-height:1.8;color:#8b949e;overflow-x:auto;white-space:pre;}
 .terminal-body .prompt{color:var(--cyan);}
 .terminal-body .ok{color:var(--green);}
 .terminal-body .out{color:#e6edf3;}
@@ -87,9 +93,9 @@ h1{font-size:34px;font-weight:600;line-height:1.2;margin:12px 0 14px;}
 /* project cards */
 .section-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:0 0 14px;}
 .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:64px;}
-.card{border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s;}
+.card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .15s;}
 .card:hover{border-color:#9aa4ad;}
-.card-top{background:var(--dark);height:78px;display:flex;align-items:center;justify-content:center;}
+.card-top{background:var(--dark);height:78px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--border);}
 .card-body{padding:16px 18px;}
 .tag{display:inline-block;font-size:10.5px;padding:3px 10px;border-radius:20px;font-weight:600;}
 .tag-red{background:#fee2e2;color:var(--red);}
@@ -106,13 +112,13 @@ footer{border-top:1px solid var(--border);padding:40px 0 26px;}
 .footer-col-label{font-size:10.5px;letter-spacing:.5px;color:var(--muted);margin-bottom:10px;}
 .footer-links{display:flex;flex-direction:column;gap:8px;font-size:13px;}
 .footer-links a:hover{color:var(--red);}
-.footer-bottom{border-top:1px solid var(--border);padding-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);}
+.footer-bottom{border-top:1px solid var(--border);padding-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);flex-wrap:wrap;gap:10px;}
 .social{display:flex;gap:12px;}
 .social a{width:22px;height:22px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;}
 
 /* project detail page */
 .breadcrumb{font-size:13px;color:var(--muted);margin:28px 0 18px;display:inline-block;}
-.badges{display:flex;gap:6px;margin:18px 0 28px;}
+.badges{display:flex;gap:6px;margin:18px 0 28px;flex-wrap:wrap;}
 .badge{font-size:12px;padding:3px 11px;border-radius:20px;border:1px solid var(--border);color:var(--muted);}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;}
 .col-title{font-size:14px;font-weight:600;margin-bottom:6px;}
@@ -128,4 +134,21 @@ table.evals code{background:var(--code-bg);padding:1px 6px;border-radius:4px;fon
   .pillars{grid-template-columns:repeat(2,1fr);}
   .projects-grid{grid-template-columns:1fr;}
   .footer-grid{grid-template-columns:1fr;}
+}
+
+@media (max-width:480px){
+  .wrap{padding:0 16px;}
+  h1{font-size:26px;}
+  .hero{padding:36px 0 32px;}
+  .sub{font-size:14px;}
+  .nav-links{gap:14px;font-size:13px;}
+  .pillars{grid-template-columns:1fr 1fr;gap:8px;margin:32px 0;}
+  .pillar{padding:12px 8px;}
+  .pillar-title{font-size:13px;}
+  .terminal-body{font-size:11px;padding:14px;}
+  table.evals thead{display:none;}
+  table.evals, table.evals tbody, table.evals tr, table.evals td{display:block;width:100%;}
+  table.evals tr{border-bottom:1px solid var(--border-soft);padding-bottom:10px;margin-bottom:10px;}
+  table.evals td{border-bottom:none;padding:2px 0;}
+  table.evals td:first-child{font-weight:600;margin-bottom:2px;}
 }
