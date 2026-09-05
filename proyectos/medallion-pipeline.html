@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Medallion pipeline en Databricks — Gastón Echenique</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 46 46"><rect x="8" y="10" width="30" height="24" rx="8" fill="#0d1117"/><circle cx="18" cy="22" r="4" fill="#22d3ee"/><circle cx="28" cy="22" r="4" fill="#22d3ee"/><rect x="20" y="4" width="6" height="7" rx="2" fill="#0d1117"/><circle cx="23" cy="3" r="2.5" fill="#dc2626"/></svg>
+      Gastón Echenique
+    </div>
+    <div class="nav-links">
+      <a href="../index.html#proyectos">Proyectos</a>
+      <a href="../index.html#footer">Contacto</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:8px;">
+
+  <a class="breadcrumb" href="../index.html#proyectos">← volver a proyectos</a>
+
+  <div>
+    <span class="tag tag-cyan">Proyecto</span>
+    <h1 style="font-size:26px;margin:12px 0 8px;">Medallion pipeline en Databricks</h1>
+    <p class="sub" style="max-width:560px;">Pipeline con arquitectura Medallion (Bronze → Silver → Gold) sobre Databricks Free Edition, desplegado como Infrastructure as Code con Terraform y automatizado vía GitHub Actions. Corriendo en producción y forkeado por otros devs.</p>
+  </div>
+
+  <div class="badges">
+    <span class="badge">Databricks</span>
+    <span class="badge">Terraform</span>
+    <span class="badge">GitHub Actions</span>
+    <span class="badge">PySpark</span>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="col-title">El problema</div>
+      <div class="col-text">Un pipeline de datos reproducible tiene que poder correrse N veces sin duplicar ni perder filas, sin ID natural en la fuente (<code>samples.nyctaxi.trips</code> no trae uno propio), y con errores visibles en vez de silenciosos.</div>
+    </div>
+    <div>
+      <div class="col-title">La solución</div>
+      <div class="col-text">Bronze vía CTAS (reproducible por diseño), Silver/Gold vía MERGE por una clave sintética (hash determinístico de pickup/dropoff/fare), y una task de validación explícita que chequea <code>silver + rejected == bronze</code>.</div>
+    </div>
+  </div>
+
+  <div class="terminal">
+    <div class="terminal-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <span style="font-size:11px;color:#8b949e;margin-left:6px;">terraform apply</span>
+    </div>
+    <div class="terminal-body">
+      <div class="out">databricks_job.medallion_pipeline: Creating...</div>
+      <div class="out">databricks_job.medallion_pipeline: Creation complete</div>
+      <div class="ok">Apply complete. 6 resources added, 0 changed, 0 destroyed ✓</div>
+    </div>
+  </div>
+
+  <div class="col-title" style="margin-top:8px;">Arquitectura</div>
+  <p class="col-text" style="margin-bottom:20px;">
+    Bronze (CTAS) → Silver (MERGE + validación) → Gold (MERGE) → Validación de conteos.
+    Cuatro tasks encadenadas en un solo Job de Databricks, con retries y notificación por email en caso de falla.
+  </p>
+
+  <div class="col-title">Qué evalúa esto</div>
+  <table class="evals">
+    <tr><th>Pregunta típica de entrevista</th><th>Dónde está la respuesta</th></tr>
+    <tr><td>¿Cómo parametrizás?</td><td><code>job.tf</code> → <code>parameter {}</code>, recibido como widgets en cada notebook</td></tr>
+    <tr><td>¿Cómo garantizás idempotencia?</td><td>Bronze = CTAS, Silver/Gold = MERGE por clave (trip_id sintético + process_date)</td></tr>
+    <tr><td>¿Cómo controlás errores?</td><td><code>try/except</code> + <code>raise</code> en cada notebook, <code>max_retries</code> en el Job</td></tr>
+    <tr><td>¿Cómo encontrás fallos?</td><td><code>email_notifications</code> on_failure, logs por task en Workflows</td></tr>
+    <tr><td>¿Cómo testeás?</td><td><code>tests/</code> con pytest + task de validación de conteos en el propio pipeline</td></tr>
+    <tr><td>¿Cómo manejás secrets?</td><td>GitHub Secrets → env vars → nunca en el <code>.tf</code> ni en el repo</td></tr>
+  </table>
+
+  <div class="btn-row" style="margin:28px 0 56px;">
+    <a class="btn btn-primary" href="https://github.com/oechenique/databricks-medallion-terraform" target="_blank">Ver repo en GitHub</a>
+  </div>
+
+</div>
+
+</body>
+</html>

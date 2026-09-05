@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Gastón Echenique — Senior Data Engineer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Pipelines que aguantan producción real. AWS, Azure, Databricks.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="brand">
+      <img src="assets/robot-icon.svg" width="26" height="26" alt="">
+      Gastón Echenique
+    </div>
+    <div class="nav-links">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#footer">Contacto</a>
+      <a href="https://github.com/oechenique" target="_blank">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">senior data engineer</div>
+      <h1>Pipelines que aguantan producción real.</h1>
+      <p class="sub">Diseño la infraestructura primero, después los modelos que corren sobre ella. AWS, Azure, Databricks.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#proyectos">Ver proyectos</a>
+        <a class="btn btn-outline" href="#footer">Contacto</a>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="terminal-body">
+        <div><span class="prompt">$</span> databricks jobs run-now medallion-pipeline-dev</div>
+        <div class="ok">bronze_ingest... OK</div>
+        <div class="ok">silver_transform... OK</div>
+        <div class="ok">gold_aggregate... OK</div>
+        <div class="ok">validate_counts... OK</div>
+        <div class="out">Pipeline completed successfully ✓</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="wrap">
+  <div class="pillars">
+    <div class="pillar"><div class="pillar-title">Pipelines</div><div class="pillar-sub">Batch + stream</div></div>
+    <div class="pillar"><div class="pillar-title">Data models</div><div class="pillar-sub">ACID, lakehouse</div></div>
+    <div class="pillar"><div class="pillar-title">Orchestration</div><div class="pillar-sub">IaC, CI/CD</div></div>
+    <div class="pillar"><div class="pillar-title">Agentic AI</div><div class="pillar-sub">LLM tooling</div></div>
+  </div>
+</section>
+
+<section class="wrap" id="proyectos">
+  <div class="section-label">Proyectos</div>
+  <div class="projects-grid">
+
+    <a class="card" href="proyectos/medallion-pipeline.html">
+      <div class="card-top"></div>
+      <div class="card-body">
+        <span class="tag tag-cyan">Proyecto</span>
+        <div class="card-title">Medallion pipeline en Databricks</div>
+        <div class="card-desc">Terraform + CI/CD, mismo repo para dev, corriendo y forkeado por otros devs.</div>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="card-top"></div>
+      <div class="card-body">
+        <span class="tag tag-red">En desarrollo</span>
+        <div class="card-title">Asesor de turismo — Azure Databricks</div>
+        <div class="card-desc">5 fuentes heterogéneas, Medallion multi-fuente, agente que lee la tabla Gold.</div>
+      </div>
+    </a>
+
+    <a class="card" href="#">
+      <div class="card-top"></div>
+      <div class="card-body">
+        <span class="tag tag-cyan">Proyecto</span>
+        <div class="card-title">Data lake con Athena</div>
+        <div class="card-desc">Tablas externas multi-fuente para consultas ad-hoc.</div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+		  <img src="assets/robot-icon.svg" width="40" height="40" alt="">
+		  <div style="font-size:13px;font-weight:600;margin-top:8px;">Gastón Echenique</div>
+		  <div style="font-size:11px;color:var(--muted);margin-top:2px;max-width:200px;">Senior Data Engineer<br> AWS AI Practitioner</div>
+	  </div>
+      <div>
+        <div class="footer-col-label">PROYECTOS</div>
+        <div class="footer-links">
+          <a href="proyectos/medallion-pipeline.html">Medallion pipeline</a>
+          <a href="#">Asesor de turismo</a>
+          <a href="#">Data lake con Athena</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label">CONECTAR</div>
+        <div class="footer-links">
+          <a href="https://www.linkedin.com/in/gaston-echenique/" target="_blank">LinkedIn</a>
+          <a href="https://github.com/oechenique" target="_blank">GitHub</a>
+          <a href="https://x.com/GastonEchenique" target="_blank">X</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Gastón Echenique</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
