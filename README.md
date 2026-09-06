@@ -29,11 +29,12 @@ Cada push a `main` desde ahora en más se deploya solo.
 ```
 index.html                       — home
 proyectos/medallion-pipeline.html — case study 1 (listo)
+proyectos/asesor-turismo.html     — case study 2 (listo)
 css/style.css                     — estilos compartidos
+js/script.js                      — terminal animada (data-lines) + theme toggle
 ```
 
 ## Pendiente
 
-- Agregar `proyectos/asesor-turismo.html` cuando el proyecto de Azure esté corrido y documentado
 - Agregar `proyectos/data-lake-athena.html`
 - Sumar el masterhead pixel art como imagen de fondo o accent en el hero (opcional)

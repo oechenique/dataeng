@@ -40,26 +40,10 @@ function typeTerminal(el, lines, opts) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  var heroTerm = document.getElementById('hero-terminal-body');
-  if (heroTerm) {
-    typeTerminal(heroTerm, [
-      { text: '$ databricks jobs run-now medallion-pipeline-dev' },
-      { text: 'bronze_ingest... OK', cls: 'ok' },
-      { text: 'silver_transform... OK', cls: 'ok' },
-      { text: 'gold_aggregate... OK', cls: 'ok' },
-      { text: 'validate_counts... OK', cls: 'ok' },
-      { text: 'Pipeline completed successfully \u2713', cls: 'out' }
-    ]);
-  }
-
-  var projTerm = document.getElementById('project-terminal-body');
-  if (projTerm) {
-    typeTerminal(projTerm, [
-      { text: '$ terraform apply -var env=prod' },
-      { text: 'databricks_job.medallion_pipeline: creating...' },
-      { text: 'databricks_job.medallion_pipeline: creation complete' },
-      { text: 'Apply complete. 6 resources added, 0 changed, 0 destroyed \u2713', cls: 'ok' }
-    ]);
+  var terminals = document.querySelectorAll('.terminal-body[data-lines]');
+  for (var i = 0; i < terminals.length; i++) {
+    var el = terminals[i];
+    typeTerminal(el, JSON.parse(el.getAttribute('data-lines')));
   }
 
   var root = document.documentElement;
