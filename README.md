@@ -1,4 +1,4 @@
-# Sitio de portfolio — Data Engineering
+# The Data Foundry — portfolio de Data Engineering
 
 Sitio estático (HTML/CSS puro, sin frameworks) — se despliega sin ningún build.
 
