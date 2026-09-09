@@ -61,9 +61,17 @@
     </div>
   </div>
 
-  <div class="terminal">
-    <div class="terminal-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-    <div class="terminal-body" id="project-terminal-body" data-lines='[{"text":"$ curl -s -X POST localhost:8000/chat"},{"text":"mensaje: quiero ir a Hokkaido en primavera, ver sakura"},{"text":"interpretando consulta (LLM + guardrails)... OK","cls":"ok"},{"text":"5 tools MCP: clima, cambio, distancia, cultura, imagen... OK","cls":"ok"},{"text":"scoring deterministico (clima/cambio/distancia)... OK","cls":"ok"},{"text":"map_action generado con 3 puntos en Hokkaido ✓","cls":"out"}]'></div>
+  <div class="terminal-row">
+    <div class="terminal">
+      <div class="terminal-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="terminal-body" id="project-terminal-body" data-lines='[{"text":"$ curl -s -X POST localhost:8000/chat"},{"text":"mensaje: quiero ir a Hokkaido en primavera, ver sakura"},{"text":"interpretando consulta (LLM + guardrails)... OK","cls":"ok"},{"text":"5 tools MCP: clima, cambio, distancia, cultura, imagen... OK","cls":"ok"},{"text":"scoring deterministico (clima/cambio/distancia)... OK","cls":"ok"},{"text":"map_action generado con 3 puntos en Hokkaido ✓","cls":"out"}]'></div>
+    </div>
+    <div class="video-window">
+      <div class="terminal-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="video-window-label">demo en video</span></div>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/et05QU0xFeA" title="Demo — Asesor de turismo con agente conversacional" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
   </div>
 
   <div class="col-title" style="margin-top:8px;">Arquitectura</div>
