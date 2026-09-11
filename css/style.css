@@ -98,11 +98,30 @@ h1{font-size:34px;font-weight:600;line-height:1.2;margin:12px 0 14px;}
 .video-embed{position:relative;width:100%;flex:1;min-height:0;padding-top:56.25%;background:#000;}
 .video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
 
-/* pillars */
-.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:48px 0;}
-.pillar{border:1px solid var(--border-soft);background:var(--pillar-bg);border-radius:8px;padding:16px 12px;text-align:center;}
-.pillar-title{color:var(--fg);font-size:14px;font-weight:600;}
-.pillar-sub{color:var(--muted);font-size:12px;margin-top:3px;}
+/* pillars / what I build */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 64px;}
+.pillar{border:1px solid var(--border-soft);background:var(--pillar-bg);border-radius:8px;padding:16px 14px;text-align:left;}
+.pillar-title{color:var(--fg);font-size:13.5px;font-weight:600;}
+.pillar-sub{color:var(--muted);font-size:11.5px;margin-top:5px;line-height:1.5;}
+
+/* why "data foundry" */
+.foundry-why{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin:0 0 64px;}
+.foundry-why-text p{color:var(--muted);font-size:14.5px;line-height:1.75;margin:10px 0 0;}
+
+/* flow diagram (architecture) */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;margin:14px 0 16px;}
+.flow-step{border:1px solid var(--border);background:var(--pillar-bg);border-radius:6px;padding:7px 12px;color:var(--fg);white-space:nowrap;}
+.flow-arrow{color:var(--muted);}
+
+/* engineering decisions */
+.decisions{margin:8px 0 20px;padding-left:0;list-style:none;}
+.decisions li{position:relative;padding-left:20px;margin-bottom:10px;font-size:13px;color:var(--muted);line-height:1.6;}
+.decisions li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--cyan);}
+
+/* engineering principles */
+.principles-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 64px;}
+.principle{border:1px solid var(--border-soft);background:var(--pillar-bg);border-radius:8px;padding:16px 18px;font-size:13px;color:var(--muted);line-height:1.6;}
+.principle strong{color:var(--fg);}
 
 /* about */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:64px;align-items:start;}
@@ -154,11 +173,12 @@ table.evals td:first-child{width:38%;font-weight:500;}
 table.evals code{background:var(--code-bg);padding:1px 6px;border-radius:4px;font-family:var(--mono);font-size:12px;}
 
 @media (max-width:720px){
-  .hero-grid,.two-col,.terminal-row,.about-grid{grid-template-columns:1fr;}
-  .pillars{grid-template-columns:repeat(2,1fr);}
+  .hero-grid,.two-col,.terminal-row,.about-grid,.foundry-why{grid-template-columns:1fr;}
+  .pillars,.principles-grid{grid-template-columns:repeat(2,1fr);}
   .projects-grid{grid-template-columns:1fr;}
   .footer-grid{grid-template-columns:1fr;}
   .about-grid{gap:28px;margin-bottom:48px;}
+  .foundry-why{gap:20px;}
 }
 
 @media (max-width:480px){
@@ -167,8 +187,9 @@ table.evals code{background:var(--code-bg);padding:1px 6px;border-radius:4px;fon
   .hero{padding:36px 0 32px;}
   .sub{font-size:14px;}
   .nav-links{gap:14px;font-size:13px;}
-  .pillars{grid-template-columns:1fr 1fr;gap:8px;margin:32px 0;}
-  .pillar{padding:12px 8px;}
+  .pillars{grid-template-columns:1fr;gap:8px;margin:0 0 48px;}
+  .principles-grid{grid-template-columns:1fr;}
+  .pillar{padding:12px 12px;}
   .pillar-title{font-size:13px;}
   .terminal-body{font-size:11px;padding:14px;}
   table.evals thead{display:none;}

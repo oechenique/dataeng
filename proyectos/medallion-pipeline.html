@@ -41,11 +41,37 @@
     <p class="sub" style="max-width:560px;">Pipeline con arquitectura Medallion (Bronze → Silver → Gold) sobre Databricks Free Edition, desplegado como Infrastructure as Code con Terraform y automatizado vía GitHub Actions. Corriendo en producción y forkeado por otros devs.</p>
   </div>
 
-  <div class="badges">
+  <div class="col-title" style="margin-top:8px;">Arquitectura</div>
+  <div class="flow">
+    <div class="flow-step">NYC taxi (fuente)</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Bronze</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Silver</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Gold</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Validación</div>
+  </div>
+  <p class="col-text" style="margin-bottom:20px;">
+    Bronze (CTAS) → Silver (MERGE + validación) → Gold (MERGE) → Validación de conteos.
+    Cuatro tasks encadenadas en un solo Job de Databricks, con retries y notificación por email en caso de falla.
+  </p>
+
+  <div class="col-title">Decisiones de ingeniería</div>
+  <ul class="decisions">
+    <li>Bronze vía CTAS en vez de ingesta incremental — reproducible por diseño, correcto para una fuente batch sin watermark nativo.</li>
+    <li>Silver/Gold vía MERGE sobre una clave sintética determinística — la fuente no trae ID propio, así que hashear pickup/dropoff/fare evita duplicar o perder filas en cada re-corrida.</li>
+    <li>Task de validación explícita (<code>silver + rejected == bronze</code>) — falla de forma visible en vez de perder registros en silencio.</li>
+    <li>Terraform + GitHub Actions en el mismo repo — quien lo forkea levanta exactamente el mismo entorno, no una aproximación.</li>
+  </ul>
+
+  <div class="col-title">Stack</div>
+  <div class="badges" style="margin-top:0;">
     <span class="badge">Databricks</span>
     <span class="badge">Terraform</span>
     <span class="badge">GitHub Actions</span>
     <span class="badge">PySpark</span>
+  </div>
+
+  <div class="btn-row" style="margin:0 0 48px;">
+    <a class="btn btn-primary" href="https://github.com/oechenique/databricks-medallion-terraform" target="_blank">Ver repo en GitHub</a>
   </div>
 
   <div class="two-col">
@@ -64,13 +90,7 @@
     <div class="terminal-body" id="project-terminal-body" data-lines='[{"text":"$ terraform apply -var env=prod"},{"text":"databricks_job.medallion_pipeline: creating..."},{"text":"databricks_job.medallion_pipeline: creation complete"},{"text":"Apply complete. 6 resources added, 0 changed, 0 destroyed ✓","cls":"ok"}]'></div>
   </div>
 
-  <div class="col-title" style="margin-top:8px;">Arquitectura</div>
-  <p class="col-text" style="margin-bottom:20px;">
-    Bronze (CTAS) → Silver (MERGE + validación) → Gold (MERGE) → Validación de conteos.
-    Cuatro tasks encadenadas en un solo Job de Databricks, con retries y notificación por email en caso de falla.
-  </p>
-
-  <div class="col-title">Qué evalúa esto</div>
+  <div class="col-title" style="margin-top:24px;">Qué evalúa esto</div>
   <table class="evals">
     <tr><th>Pregunta típica de entrevista</th><th>Dónde está la respuesta</th></tr>
     <tr><td>¿Cómo parametrizás?</td><td><code>job.tf</code> → <code>parameter {}</code>, recibido como widgets en cada notebook</td></tr>
@@ -80,10 +100,6 @@
     <tr><td>¿Cómo testeás?</td><td><code>tests/</code> con pytest + task de validación de conteos en el propio pipeline</td></tr>
     <tr><td>¿Cómo manejás secrets?</td><td>GitHub Secrets → env vars → nunca en el <code>.tf</code> ni en el repo</td></tr>
   </table>
-
-  <div class="btn-row" style="margin:28px 0 56px;">
-    <a class="btn btn-primary" href="https://github.com/oechenique/databricks-medallion-terraform" target="_blank">Ver repo en GitHub</a>
-  </div>
 
 </div>
 

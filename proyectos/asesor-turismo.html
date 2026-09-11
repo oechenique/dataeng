@@ -41,13 +41,39 @@
     <p class="sub" style="max-width:560px;">Preguntás en lenguaje natural — "quiero ir a Hokkaido en primavera para ver los sakura" — y te devuelve puntos concretos en un mapa, cada uno con clima, tipo de cambio, distancia desde tu origen, contexto cultural e imagen: datos reales de 5 fuentes públicas, no inventados por el LLM. Continuación del pipeline Medallion, un escalón más arriba: agente con tool calling vía MCP, guardrails de seguridad y frontend mapa + chat de punta a punta.</p>
   </div>
 
-  <div class="badges">
+  <div class="col-title" style="margin-top:8px;">Arquitectura</div>
+  <div class="flow">
+    <div class="flow-step">5 fuentes</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Bronze (paralelo)</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Silver</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Gold (scoreada)</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Agente (MCP)</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Mapa + Chat</div>
+  </div>
+  <p class="col-text" style="margin-bottom:20px;">
+    Bronze (5 fuentes en paralelo: Open-Meteo, Frankfurter, Wikivoyage/Wikimedia, OpenRouteService) → Silver → Gold ya scoreada → agente con tool calling MCP → frontend mapa + chat. Infra completa en Azure (Databricks Premium, ADLS Gen2, Key Vault) desplegada con Terraform; el Job corre en serverless compute.
+  </p>
+
+  <div class="col-title">Decisiones de ingeniería</div>
+  <ul class="decisions">
+    <li>Los scores (clima, cambio, distancia) se calculan de forma determinística, nunca los inventa el LLM — el modelo solo redacta y elige dentro de la región, así el resultado es testeable y reproducible.</li>
+    <li>5 fuentes ingestadas en tasks Bronze en paralelo — APIs heterogéneas (clima, cambio, POIs, ruteo) modeladas como unidades independientes y reintentables, no un ingest monolítico.</li>
+    <li>Tool calling vía MCP sobre la tabla Gold ya scoreada — el agente ve datos verificados y agregados, nunca la respuesta cruda de cada fuente.</li>
+    <li>Guardrails de scoping acotan al agente al dominio de turismo — el input del usuario no puede redirigir qué tools se ejecutan.</li>
+  </ul>
+
+  <div class="col-title">Stack</div>
+  <div class="badges" style="margin-top:0;">
     <span class="badge">Databricks</span>
     <span class="badge">Azure</span>
     <span class="badge">Terraform</span>
     <span class="badge">MCP / Tool calling</span>
     <span class="badge">FastAPI</span>
     <span class="badge">Leaflet</span>
+  </div>
+
+  <div class="btn-row" style="margin:0 0 48px;">
+    <a class="btn btn-primary" href="https://github.com/oechenique/asesor-turismo-databricks" target="_blank">Ver repo en GitHub</a>
   </div>
 
   <div class="two-col">
@@ -74,12 +100,7 @@
     </div>
   </div>
 
-  <div class="col-title" style="margin-top:8px;">Arquitectura</div>
-  <p class="col-text" style="margin-bottom:20px;">
-    Bronze (5 fuentes en paralelo: Open-Meteo, Frankfurter, Wikivoyage/Wikimedia, OpenRouteService) → Silver → Gold ya scoreada → agente con tool calling MCP → frontend mapa + chat. Infra completa en Azure (Databricks Premium, ADLS Gen2, Key Vault) desplegada con Terraform; el Job corre en serverless compute.
-  </p>
-
-  <div class="col-title">Qué evalúa esto</div>
+  <div class="col-title" style="margin-top:24px;">Qué evalúa esto</div>
   <table class="evals">
     <tr><th>Pregunta típica de entrevista</th><th>Dónde está la respuesta</th></tr>
     <tr><td>¿Cómo conectás un LLM a datos reales?</td><td><code>agente/mcp_client.py</code>, 5 tools MCP sobre la tabla Gold ya scoreada</td></tr>
@@ -89,10 +110,6 @@
     <tr><td>¿Cómo cerrás el círculo end-to-end?</td><td><code>frontend/index.html</code>, mapa + chat sobre FastAPI, sin build</td></tr>
     <tr><td>¿Cómo manejás infra real (no Free Edition)?</td><td>Terraform sobre Azure: Databricks Premium, ADLS Gen2, Key Vault</td></tr>
   </table>
-
-  <div class="btn-row" style="margin:28px 0 56px;">
-    <a class="btn btn-primary" href="https://github.com/oechenique/asesor-turismo-databricks" target="_blank">Ver repo en GitHub</a>
-  </div>
 
 </div>
 
