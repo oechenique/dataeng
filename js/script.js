@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var root = document.documentElement;
   var saved = localStorage.getItem('theme');
-  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (saved === 'dark' || (!saved && prefersDark)) root.classList.add('dark');
+  // "Carbon & Ember" dark is the brand's default look; light is opt-in via the toggle.
+  if (saved !== 'light') root.classList.add('dark');
 
   var btn = document.getElementById('theme-toggle');
   if (btn) {

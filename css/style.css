@@ -1,34 +1,41 @@
+/* "Carbon & Ember" — forge-inspired identity. Light is the secondary/optional
+   mode; dark carbon is the brand default (see js/script.js). Ember is the one
+   constant brand accent across both modes; cyan/red stay small details only. */
 :root{
-  --bg:#ffffff;
-  --fg:#0d1117;
-  --muted:#57606a;
-  --border:#d0d7de;
-  --border-soft:#eaecef;
-  --pillar-bg:#f6f8fa;
-  --code-bg:#f6f8fa;
-  --btn-bg:#0d1117;
-  --btn-fg:#ffffff;
-  --cyan:#22d3ee;
-  --red:#dc2626;
-  --dark:#0d1117;
-  --dark2:#161b22;
+  --bg:#faf6f0;
+  --fg:#211c17;
+  --muted:#6e6157;
+  --border:#ddd2c2;
+  --border-soft:#ece3d5;
+  --pillar-bg:#f2e9db;
+  --code-bg:#f2e9db;
+  --card-bg:#fffdfa;
+  --ember:#d9660c;
+  --ember-fg:#1a1410;
+  --cyan:#0e93a8;
+  --red:#c23a2b;
+  --dark:#171310;
+  --dark2:#221c17;
   --green:#3fb950;
-  --card-bg:#ffffff;
   --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:"SF Mono",Consolas,"Liberation Mono",Menlo,monospace;
 }
 
 :root.dark{
-  --bg:#0d1117;
-  --fg:#e6edf3;
-  --muted:#8b949e;
-  --border:#30363d;
-  --border-soft:#21262d;
-  --pillar-bg:#161b22;
-  --code-bg:#161b22;
-  --btn-bg:#e6edf3;
-  --btn-fg:#0d1117;
-  --card-bg:#161b22;
+  --bg:#0c0a08;
+  --fg:#f1ece2;
+  --muted:#a89a8a;
+  --border:#392f26;
+  --border-soft:#221c17;
+  --pillar-bg:#171310;
+  --code-bg:#171310;
+  --card-bg:#141110;
+  --ember:#ef7d1a;
+  --ember-fg:#160f09;
+  --cyan:#22d3ee;
+  --red:#ef4444;
+  --dark:#080706;
+  --dark2:#120e0b;
 }
 
 body{transition:background-color .2s,color .2s;}
@@ -56,20 +63,21 @@ a{color:inherit;text-decoration:none;}
 .icon-link{display:flex;align-items:center;color:var(--muted);}
 .icon-link:hover{color:var(--fg);}
 
-/* icon that needs to flip to white only in dark mode (logo, not the always-dark card icons) */
-.icon-auto{transition:filter .2s;}
-.dark .icon-auto{filter:brightness(0) invert(1);}
+/* logo: head uses currentColor (adapts with --fg), eyes/antenna keep fixed brand color */
+.icon-auto{color:var(--fg);}
 
 /* hero */
 .hero{padding:64px 0 48px;}
 .hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;}
-.eyebrow{font-size:13px;color:var(--red);font-weight:600;}
+.eyebrow{font-size:13px;color:var(--ember);font-weight:600;letter-spacing:.2px;}
 h1{font-size:34px;font-weight:600;line-height:1.2;margin:12px 0 14px;}
 .sub{color:var(--muted);font-size:15px;max-width:420px;margin:0 0 24px;}
 
-.btn{display:inline-block;font-size:14px;font-weight:600;padding:11px 20px;border-radius:6px;cursor:pointer;}
-.btn-primary{background:var(--btn-bg);color:var(--btn-fg);}
+.btn{display:inline-block;font-size:14px;font-weight:600;padding:11px 20px;border-radius:6px;cursor:pointer;border:1px solid transparent;}
+.btn-primary{background:var(--ember);color:var(--ember-fg);}
+.btn-primary:hover{filter:brightness(1.12);}
 .btn-outline{border:1px solid var(--border);color:var(--fg);}
+.btn-outline:hover{border-color:var(--ember);color:var(--ember);}
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;}
 
 .theme-toggle{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -134,19 +142,25 @@ h1{font-size:34px;font-weight:600;line-height:1.2;margin:12px 0 14px;}
 .timeline-org a:hover,.timeline-desc a:hover{color:var(--red);}
 .timeline-desc a{text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:2px;}
 .timeline-role{font-size:12px;color:var(--red);font-weight:600;margin:2px 0 5px;}
-.timeline-desc{font-size:12.5px;color:var(--muted);}
+.timeline-date{font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:1px;}
+.timeline-desc{font-size:12.5px;color:var(--muted);margin-top:4px;}
 
 /* project cards */
 .section-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:0 0 14px;}
 .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:64px;}
 .card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;transition:border-color .15s;}
-.card:hover{border-color:#9aa4ad;}
+.card:hover{border-color:var(--ember);}
 .card-body{padding:20px 18px;}
 .tag{display:inline-block;font-size:10.5px;padding:3px 10px;border-radius:20px;font-weight:600;}
-.tag-red{background:#fee2e2;color:var(--red);}
-.tag-cyan{background:#e0f2fe;color:#0369a1;}
+.tag-red{background:rgba(194,58,43,.14);color:var(--red);}
+.tag-cyan{background:rgba(14,147,168,.14);color:var(--cyan);}
 .card-title{font-size:14px;font-weight:600;margin:9px 0 4px;}
 .card-desc{color:var(--muted);font-size:12.5px;}
+
+/* "próximamente" card: dimmed, not clickable, visually distinct from a finished case study */
+.card-soon{opacity:.55;border-style:dashed;}
+.card-soon:hover{border-color:var(--border);}
+.card-soon .tag-red{background:transparent;border:1px solid var(--red);}
 
 /* footer */
 footer{border-top:1px solid var(--border);padding:40px 0 26px;}
@@ -158,6 +172,13 @@ footer{border-top:1px solid var(--border);padding:40px 0 26px;}
 .social{display:flex;gap:10px;}
 .social a{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:color .15s,border-color .15s;}
 .social a:hover{color:var(--red);border-color:var(--red);}
+
+.footer-cta{margin-top:14px;}
+.footer-cta .btn{padding:9px 16px;font-size:13px;}
+
+.footer-extra{font-size:11px;color:var(--muted);margin-top:10px;}
+.footer-extra a{color:var(--muted);text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:2px;}
+.footer-extra a:hover{color:var(--cyan);text-decoration-color:var(--cyan);}
 
 /* project detail page */
 .breadcrumb{font-size:13px;color:var(--muted);margin:28px 0 18px;display:inline-block;}
