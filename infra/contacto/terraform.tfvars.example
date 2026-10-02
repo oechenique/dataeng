@@ -1,0 +1,7 @@
+mail_destino = "<MAIL_DESTINO>"
+
+# Opcional: sumar el dominio propio cuando exista.
+# origenes_permitidos = ["https://gechenique-dataeng.vercel.app", "https://<DOMINIO_PROPIO>"]
+
+# Opcional: activar solo si se aumenta la cuota de concurrencia de la cuenta (hoy 10).
+# concurrencia_reservada = 2

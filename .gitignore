@@ -1,0 +1,9 @@
+# Terraform: state local, plugins, variables con datos reales
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+terraform.tfvars
+infra/contacto/build/
+
+__pycache__/
