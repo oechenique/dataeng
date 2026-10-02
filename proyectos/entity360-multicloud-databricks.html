@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N8MQ3VTC');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="author" content="Gastón Echenique">
+<title>Entity 360 — Golden record multicloud en Databricks — Kage no Kaji</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://gechenique-dataeng.vercel.app/proyectos/entity360-multicloud-databricks.html">
+<meta property="og:title" content="Entity 360 — Golden record multicloud en Databricks — Kage no Kaji">
+<meta property="og:description" content="La misma empresa en 5 fuentes y 4 productores (on-prem, AWS, GCP, container) resuelta en un golden record explicable: contratos Soda, Medallion SCD2, dbt + Iceberg y Snowflake zero-copy, orquestado con Airflow.">
+<meta property="og:image" content="https://gechenique-dataeng.vercel.app/assets/og-image.png?v=3">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Entity 360 — Golden record multicloud en Databricks — Kage no Kaji">
+<meta name="twitter:image" content="https://gechenique-dataeng.vercel.app/assets/og-image.png?v=3">
+<link rel="icon" type="image/svg+xml" href="../assets/robot-icon.svg">
+<script>if(localStorage.getItem('theme')!=='light')document.documentElement.classList.add('dark');</script>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N8MQ3VTC"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="brand">
+      <svg class="icon-auto" width="26" height="26" viewBox="0 0 50 50" aria-hidden="true"><g transform="translate(0,50) scale(0.1,-0.1)"><path fill="currentColor" d="M82 385 c-18 -8 -35 -21 -38 -30 -3 -8 -12 -15 -20 -15 -20 0 -18 -92 4 -155 24 -71 56 -85 194 -85 151 0 146 18 -7 22 -114 3 -126 5 -147 26 -20 20 -23 33 -23 102 0 69 3 82 23 102 21 22 30 23 162 23 165 0 179 -7 188 -94 3 -34 9 -51 18 -51 10 0 14 15 14 55 0 40 -4 55 -14 55 -8 0 -17 7 -20 15 -3 9 -21 22 -41 30 -47 20 -247 20 -293 0z"/><path fill="currentColor" d="M103 340 c-36 -15 -45 -142 -13 -174 7 -7 58 -11 141 -11 153 0 159 3 159 95 0 90 -7 95 -147 97 -65 2 -128 -2 -140 -7z m251 -26 c21 -21 21 -107 0 -128 -23 -23 -225 -23 -248 0 -21 21 -21 107 0 128 23 23 225 23 248 0z"/><path style="fill:var(--ember)" d="M140 275 c0 -20 5 -25 25 -25 20 0 25 5 25 25 0 20 -5 25 -25 25 -20 0 -25 -5 -25 -25z"/><path style="fill:var(--ember)" d="M270 275 c0 -20 5 -25 25 -25 20 0 25 5 25 25 0 20 -5 25 -25 25 -20 0 -25 -5 -25 -25z"/><path fill="currentColor" d="M190 210 c0 -5 18 -10 40 -10 22 0 40 5 40 10 0 6 -18 10 -40 10 -22 0 -40 -4 -40 -10z"/><path style="fill:var(--red)" d="M415 179 c-4 -18 -16 -35 -31 -41 -13 -6 -24 -14 -24 -18 0 -4 11 -12 24 -18 15 -6 27 -23 31 -41 4 -17 10 -31 15 -31 5 0 11 14 15 31 4 18 16 35 31 41 13 6 24 14 24 18 0 4 -11 12 -24 18 -15 6 -27 23 -31 41 -4 17 -10 31 -15 31 -5 0 -11 -14 -15 -31z m29 -44 c6 -17 -2 -45 -14 -45 -12 0 -20 28 -14 45 4 8 10 15 14 15 4 0 10 -7 14 -15z"/></g></svg>
+      <div class="brand-text">
+        <span class="brand-name">Kage no Kaji</span>
+        <span class="brand-sub">Gastón Echenique</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="../index.html#proyectos">Proyectos</a>
+      <a href="../index.html#footer">Contacto</a>
+      <a class="icon-link" href="https://github.com/oechenique" target="_blank" aria-label="GitHub">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.284-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.333-1.754-1.333-1.754-1.09-.744.083-.729.083-.729 1.205.084 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.303-5.466-1.332-5.466-5.93 0-1.31.468-2.38 1.235-3.22-.123-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.5 11.5 0 013.003-.404c1.02.005 2.047.138 3.003.404 2.29-1.552 3.297-1.23 3.297-1.23.653 1.653.24 2.873.118 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.804 5.624-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .32.216.694.825.576C20.565 21.795 24 17.298 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+        <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:8px;">
+
+  <a class="breadcrumb" href="../index.html#proyectos">← volver a proyectos</a>
+
+  <div>
+    <span class="tag tag-cyan">Proyecto</span>
+    <h1 style="font-size:26px;margin:12px 0 8px;">Entity 360 — Golden record multicloud en Databricks</h1>
+    <p class="sub" style="max-width:560px;">La misma empresa aparece en 5 fuentes, traídas por 4 productores, con nombres e identificadores distintos. Esta plataforma la convierte en un solo golden record explicable: cada atributo dice de qué fuente vino y cada unión dice por qué se hizo. Sexto proyecto de la serie, y el primero que cruza on-prem, tres nubes y dos warehouses en un mismo DAG.</p>
+  </div>
+
+  <div class="col-title" style="margin-top:8px;">Arquitectura</div>
+  <div class="flow">
+    <div class="flow-step">4 productores</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Landing + contratos</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Bronze / Silver SCD2</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Resolución</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Gold (dbt + Iceberg)</div><span class="flow-arrow">→</span>
+    <div class="flow-step">Snowflake zero-copy</div>
+  </div>
+  <p class="col-text" style="margin-bottom:20px;">
+    Un SQL Server legacy con CDC (GLEIF), una Lambda en AWS (SEC EDGAR), GitHub Actions + BigQuery (GDELT) y un container (OpenSanctions + Wikidata) guardan primero en su propio almacenamiento y después <strong>empujan</strong> cada lote al landing de Unity Catalog con un manifest (sha256, registros, rango extraído). Contratos de Soda Core aprueban el lote o lo mandan a cuarentena antes de Bronze; Silver es incremental con SCD2 y la resolución de identidades une <strong>1.268 registros en 1.136 entidades</strong>. Gold se construye con dbt en Iceberg, y Snowflake lo lee vía Iceberg REST con una base catalog-linked, sin copiar datos. Airflow 3 orquesta todo y avisa por Telegram; el consumo es un dashboard AI/BI con Genie.
+  </p>
+
+  <div class="col-title">Decisiones de ingeniería</div>
+  <ul class="decisions">
+    <li>Resolución de identidades medida, no afirmada: set etiquetado a mano (59 registros + 60 pares) con intervalos de Wilson al 95 % — v2.1 con precisión 1,000 y recall 0,978.</li>
+    <li>Lo dudoso no se fuerza: una empresa que solo aparece por nombre en GDELT queda en <code>resolution.revision</code> en vez de unirse suponiendo el país.</li>
+    <li>Latido ≠ frescura: un productor sin novedades deja un <code>_manifest</code> vacío (<code>sin_cambios: true</code>), así "estoy vivo" se separa de "hay datos nuevos".</li>
+    <li>Identidad estable de Gold: <code>CREATE OR REPLACE</code> cambiaba el UUID de la tabla y rompía Snowflake; Gold pasó a <code>incremental</code> con <code>insert_overwrite</code>, mismo <code>table_id</code>.</li>
+    <li>Mínimo privilegio probado: el SP de Snowflake recibe 403 en <code>silver</code> y la base catalog-linked rechaza escrituras incluso a ACCOUNTADMIN. Un SP por productor y 0 secretos en el state de Terraform.</li>
+    <li>Silver incremental bajó de 423 s a 32 s sin lotes nuevos, con huellas idénticas en las 12 tablas contra el recálculo completo.</li>
+  </ul>
+
+  <div class="col-title">Stack</div>
+  <div class="badges" style="margin-top:0;">
+    <span class="badge">Databricks</span>
+    <span class="badge">Unity Catalog</span>
+    <span class="badge">dbt</span>
+    <span class="badge">Iceberg</span>
+    <span class="badge">Snowflake</span>
+    <span class="badge">Airflow 3</span>
+    <span class="badge">Soda Core</span>
+    <span class="badge">SQL Server CDC</span>
+    <span class="badge">AWS Lambda</span>
+    <span class="badge">BigQuery</span>
+    <span class="badge">Terraform</span>
+  </div>
+
+  <div class="btn-row" style="margin:0 0 48px;">
+    <a class="btn btn-primary" href="https://github.com/oechenique/entity360-multicloud-databricks" target="_blank">Ver repo en GitHub</a>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <div class="col-title">El problema</div>
+      <div class="col-text">Los datos de una organización viven repartidos entre un ERP legacy on-prem y varias nubes. Acá las entidades son empresas reales y las fuentes son registros públicos reales que se pisan entre sí — y ninguna comparte un identificador (LEI, CIK, QID o solo un nombre) con todas las demás.</div>
+    </div>
+    <div>
+      <div class="col-title">La solución</div>
+      <div class="col-text">Cada productor empuja lotes con manifest a un landing común, los contratos filtran lo roto antes de Bronze, y una resolución por reglas calibrada arma un golden record con procedencia por atributo. Gold en Iceberg se comparte a Snowflake zero-copy por 0,07 créditos, y todo corre en un DAG de 28 tareas en ~12 minutos.</div>
+    </div>
+  </div>
+
+  <div class="terminal-row">
+    <div class="terminal">
+      <div class="terminal-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      <div class="terminal-body" id="project-terminal-body" data-lines='[{"text":"$ airflow dags trigger entity360_convergencia"},{"text":"llegada_* (5 manifests) + contratos Soda... OK","cls":"ok"},{"text":"medallion: bronze → silver SCD2 → resolución... OK","cls":"ok"},{"text":"dbt_gold (5 modelos Iceberg + tests)... OK","cls":"ok"},{"text":"snowflake_refrescar + dbt_marts... OK","cls":"ok"},{"text":"28/28 tareas en 12 min 44 s ✓ — aviso por Telegram","cls":"out"}]'></div>
+    </div>
+    <div class="video-window">
+      <div class="terminal-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="video-window-label">demo en video</span></div>
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/f-xG-CRQHBE" title="Demo — Entity 360 multicloud en Databricks" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-title" style="margin-top:24px;">Qué evalúa esto</div>
+  <table class="evals">
+    <tr><th>Pregunta típica de entrevista</th><th>Dónde está la respuesta</th></tr>
+    <tr><td>¿Cómo resolvés la misma entidad entre fuentes sin un ID común?</td><td><code>databricks/resolucion/calibracion/INFORME.md</code> — reglas calibradas con P/R e intervalos de Wilson</td></tr>
+    <tr><td>¿Cómo evitás que un lote roto contamine el lakehouse?</td><td>Contratos Soda en la llegada + cuarentena — <code>docs/adr/0006-bronze-exige-contrato.md</code></td></tr>
+    <tr><td>¿Cómo compartís datos entre Databricks y Snowflake sin copiarlos?</td><td>Base catalog-linked vía Iceberg REST + credential vending — <code>snowflake/evidencia/</code></td></tr>
+    <tr><td>¿Cómo distinguís un productor caído de uno sin novedades?</td><td>Manifest de latido — <code>docs/adr/0014-latido-separado-de-frescura.md</code></td></tr>
+    <tr><td>¿Cómo bajás el costo de un pipeline que se recalcula entero?</td><td>Silver incremental, 423 s → 32 s — <code>docs/adr/0011-silver-incremental-y-cuota.md</code></td></tr>
+    <tr><td>¿Cómo manejás secretos en una infra multicloud con Terraform?</td><td>0 secretos en el state, un SP por productor — <code>docs/adr/0002</code> y <code>docs/adr/0012</code></td></tr>
+  </table>
+
+</div>
+
+<script src="../js/script.js"></script>
+</body>
+</html>
