@@ -1,7 +1,7 @@
 # Formulario de contacto serverless
 
 El botón "Escribime →" del footer abre un panel lateral con un formulario. El mensaje llega por mail mediante
-AWS Lambda y SES, con costo cero en la práctica. Reglas de la tarea: [`reglas/reglas-contacto-serverless.md`](../reglas/reglas-contacto-serverless.md).
+AWS Lambda y SES, con costo cero en la práctica. Reglas de la tarea: [`docs/reglas/reglas-contacto-serverless.md`](reglas/reglas-contacto-serverless.md).
 
 ## Arquitectura
 
