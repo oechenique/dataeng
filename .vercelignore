@@ -1,0 +1,5 @@
+# Solo se publican las páginas del sitio (HTML, css/, js/, assets/).
+/infra
+/docs
+tests
+*.md

@@ -78,7 +78,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="col-title">Decisiones de ingeniería</div>
   <ul class="decisions">
-    <li>Resolución de identidades medida, no afirmada: set etiquetado a mano (59 registros + 60 pares) con intervalos de Wilson al 95 % — v2.1 con precisión 1,000 y recall 0,978.</li>
+    <li>Resolución de identidades medida, no afirmada: set etiquetado a mano (59 registros + 60 pares) con intervalos de Wilson al 95 %. La v1, con medición ciega, dio precisión 0,913 [0,732–0,976] y recall 0,955 [0,782–0,992]; la v2.1, sobre el set completo (no ciego), precisión 1,000 [0,921–1,000] y recall 0,978 [0,887–0,996].</li>
     <li>Lo dudoso no se fuerza: una empresa que solo aparece por nombre en GDELT queda en <code>resolution.revision</code> en vez de unirse suponiendo el país.</li>
     <li>Latido ≠ frescura: un productor sin novedades deja un <code>_manifest</code> vacío (<code>sin_cambios: true</code>), así "estoy vivo" se separa de "hay datos nuevos".</li>
     <li>Identidad estable de Gold: <code>CREATE OR REPLACE</code> cambiaba el UUID de la tabla y rompía Snowflake; Gold pasó a <code>incremental</code> con <code>insert_overwrite</code>, mismo <code>table_id</code>.</li>
@@ -112,7 +112,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div>
       <div class="col-title">La solución</div>
-      <div class="col-text">Cada productor empuja lotes con manifest a un landing común, los contratos filtran lo roto antes de Bronze, y una resolución por reglas calibrada arma un golden record con procedencia por atributo. Gold en Iceberg se comparte a Snowflake zero-copy por 0,07 créditos, y todo corre en un DAG de 28 tareas en ~12 minutos.</div>
+      <div class="col-text">Cada productor empuja lotes con manifest a un landing común, los contratos filtran lo roto antes de Bronze, y una resolución por reglas calibrada arma un golden record con procedencia por atributo. Gold en Iceberg se comparte a Snowflake zero-copy (el proyecto completo consumió ~0,24 créditos, ≈ USD 1 del trial), y todo corre en un DAG de 28 tareas en ~12 minutos.</div>
     </div>
   </div>
 
