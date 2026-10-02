@@ -1,0 +1,74 @@
+/* Panel lateral de contacto (js/contacto.js). Usa los tokens de style.css. */
+button.btn{font-family:inherit;line-height:inherit;}
+
+body.contacto-abierto{overflow:hidden;}
+
+.contacto[hidden]{display:none;}
+.contacto-fondo{position:fixed;inset:0;background:rgba(8,7,6,.6);opacity:0;transition:opacity .25s;z-index:90;}
+.contacto-panel{
+  position:fixed;top:0;right:0;bottom:0;z-index:91;
+  width:420px;max-width:100%;overflow-y:auto;
+  background:var(--bg);color:var(--fg);border-left:1px solid var(--border);
+  padding:22px 24px 28px;
+  transform:translateX(100%);transition:transform .25s ease;
+}
+.contacto.visible .contacto-fondo{opacity:1;}
+.contacto.visible .contacto-panel{transform:none;}
+.contacto-panel:focus{outline:none;}
+
+.contacto-cabecera{display:flex;align-items:center;justify-content:space-between;}
+.contacto-cabecera h2{font-size:18px;margin:0;}
+.contacto-cerrar{width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--fg);cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.contacto-cerrar:hover{border-color:var(--ember);color:var(--ember);}
+.contacto-intro{color:var(--muted);font-size:13px;margin:6px 0 18px;}
+
+.contacto-form{display:flex;flex-direction:column;gap:14px;}
+.contacto-campo{display:flex;flex-direction:column;gap:5px;}
+.contacto-campo label{font-size:12.5px;font-weight:600;}
+.contacto-opcional{font-weight:400;color:var(--muted);}
+.contacto-campo input,
+.contacto-campo textarea{
+  font-family:inherit;font-size:14px;color:var(--fg);
+  background:var(--card-bg);border:1px solid var(--border);border-radius:6px;padding:9px 11px;
+}
+.contacto-campo textarea{resize:vertical;min-height:110px;}
+.contacto-campo input:focus,
+.contacto-campo textarea:focus{outline:none;border-color:var(--ember);box-shadow:0 0 0 2px color-mix(in srgb,var(--ember) 25%,transparent);}
+.contacto-campo [aria-invalid="true"]{border-color:var(--red);}
+/* Autofill de Chrome: tapar el fondo celeste con el fondo del input y mantener el color del texto. */
+.contacto-campo input:-webkit-autofill,
+.contacto-campo input:-webkit-autofill:hover,
+.contacto-campo input:-webkit-autofill:focus{
+  -webkit-box-shadow:0 0 0 1000px var(--card-bg) inset;
+  box-shadow:0 0 0 1000px var(--card-bg) inset;
+  -webkit-text-fill-color:var(--fg);
+  caret-color:var(--fg);
+}
+.contacto-campo input:-webkit-autofill:focus{
+  -webkit-box-shadow:0 0 0 1000px var(--card-bg) inset,0 0 0 2px color-mix(in srgb,var(--ember) 25%,transparent);
+  box-shadow:0 0 0 1000px var(--card-bg) inset,0 0 0 2px color-mix(in srgb,var(--ember) 25%,transparent);
+}
+.contacto-ayuda,.contacto-contador{font-size:11px;color:var(--muted);}
+.contacto-contador{align-self:flex-end;font-family:var(--mono);}
+.contacto-error{font-size:11.5px;color:var(--red);}
+.contacto-error:empty{display:none;}
+
+/* Honeypot: fuera de la vista y del orden de tabulación. */
+.contacto-trampa{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;}
+
+.contacto-enviar{align-self:flex-start;}
+.contacto-enviar:disabled{opacity:.6;cursor:wait;filter:none;}
+.contacto-estado{font-size:13px;margin:0;}
+.contacto-estado:empty{display:none;}
+.contacto-estado.ok{color:var(--green);}
+.contacto-estado.error{color:var(--red);}
+.contacto-estado a,.contacto-alternativa a{text-decoration:underline;text-underline-offset:2px;}
+.contacto-alternativa{font-size:12px;color:var(--muted);margin:22px 0 0;padding-top:14px;border-top:1px solid var(--border-soft);}
+.contacto-alternativa a:hover{color:var(--ember);}
+
+@media (max-width:560px){
+  .contacto-panel{width:100%;border-left:0;padding:18px 16px 24px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .contacto-fondo,.contacto-panel{transition:none;}
+}
